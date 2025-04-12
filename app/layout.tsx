@@ -25,6 +25,7 @@ export default function RootLayout({
         className={`${monaSans.variable}} antialiased pattern`}
         cz-shortcut-listen="true"
         data-new-gr-c-s-check-loaded="14.1229.0"
+         data-gr-ext-installed=""
       >
         {children}
         <Toaster />
