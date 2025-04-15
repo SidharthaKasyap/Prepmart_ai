@@ -9,7 +9,7 @@ import { cn, getRandomInterviewCover } from "@/lib/utils";
 // import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
 const InterviewCard = async ({
-  interviewId,
+  id,
   userId,
   role,
   type,
@@ -26,7 +26,7 @@ const InterviewCard = async ({
   const feedback = null as Feedback | null;
 
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
-
+console.log(id,"id")
   const badgeColor =
     {
       Behavioral: "bg-light-400",
@@ -94,11 +94,7 @@ const InterviewCard = async ({
 
           <Button className="btn-primary">
             <Link
-              href={
-                feedback
-                  ? `/interview/${interviewId}/feedback`
-                  : `/interview/${interviewId}`
-              }
+              href={feedback ? `/Interview/${id}/feedback` : `/Interview/${id}`}
             >
               {feedback ? "Check Feedback" : "View Interview"}
             </Link>

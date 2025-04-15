@@ -25,8 +25,6 @@ export async function POST(request: Request) {
     `,
     });
 
-    console.log(questions,"qq")
-
     const interview = {
       role: role,
       type: type,

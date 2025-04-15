@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { vapi } from "@/lib/vapi.sdk";
-// import { interviewer } from "@/constants";
+import { interviewer } from "@/constants";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 // import { createFeedback } from "@/lib/actions/general.action";
@@ -20,7 +20,13 @@ interface SavedMessage {
   content: string;
 }
 
-const Agent = ({ userName, userId, type, questions }: AgentProps) => {
+const Agent = ({
+  userName,
+  userId,
+  type,
+  questions,
+  interviewId,
+}: AgentProps) => {
   const router = useRouter();
   const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
   const [messages, setMessages] = useState<SavedMessage[]>([]);
@@ -77,31 +83,34 @@ const Agent = ({ userName, userId, type, questions }: AgentProps) => {
       setLastMessage(messages[messages.length - 1].content);
     }
 
-    // const handleGenerateFeedback = async (messages: SavedMessage[]) => {
-    //   console.log("handleGenerateFeedback");
+    const handleGenerateFeedback = async (messages: SavedMessage[]) => {
+      // const { success, feedbackId: id } = await createFeedback({
+      //   interviewId: interviewId!,
+      //   userId: userId!,
+      //   transcript: messages,
+      //   feedbackId,
+      // });
 
-    //   const { success, feedbackId: id } = await createFeedback({
-    //     interviewId: interviewId!,
-    //     userId: userId!,
-    //     transcript: messages,
-    //     feedbackId,
-    //   });
+      const { success, id } = {
+        success: true,
+        id: "feedakc",
+      };
 
-    //   if (success && id) {
-    //     router.push(`/interview/${interviewId}/feedback`);
-    //   } else {
-    //     console.log("Error saving feedback");
-    //     router.push("/");
-    //   }
-    // };
+      if (success && id) {
+        router.push(`/interview/${interviewId}/feedback`);
+      } else {
+        console.log("Error saving feedback");
+        router.push("/");
+      }
+    };
 
-    // if (callStatus === CallStatus.FINISHED) {
-    //   if (type === "generate") {
-    //     router.push("/");
-    //   } else {
-    //     handleGenerateFeedback(messages);
-    //   }
-    // }
+    if (callStatus === CallStatus.FINISHED) {
+      if (type === "generate") {
+        router.push("/");
+      } else {
+        handleGenerateFeedback(messages);
+      }
+    }
   }, [messages, callStatus, router, type, userId]);
 
   const handleCall = async () => {
@@ -122,11 +131,11 @@ const Agent = ({ userName, userId, type, questions }: AgentProps) => {
           .join("\n");
       }
 
-      // await vapi.start(interviewer, {
-      //   variableValues: {
-      //     questions: formattedQuestions,
-      //   },
-      // });
+      await vapi.start(interviewer, {
+        variableValues: {
+          questions: formattedQuestions,
+        },
+      });
     }
   };
 
